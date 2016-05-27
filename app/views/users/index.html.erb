@@ -1,0 +1,70 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Users</h1>
+
+  <div>
+    <%= form_tag "/users", method: :get, class: "form-inline" do %>
+      query
+      <%= text_field_tag "query", params[:query], class: "form-control", autocomplete: "off" %></br>
+      is_admin
+      <%= select_tag :is_admin, options_for_select([['True', true], ['False', false]]) %></br>
+      comment_id
+      <%= select_tag :comment_id, options_for_select([['1'], ['2'], ['3'], ['4'], ['5'], ['6'], ['7'], ['8'], ['9'], ['10']]) %></br>
+      comment_content
+      <%= text_field_tag "comment_content", params[:comment_content], class: "form-control", autocomplete: "off" %></br>
+      user_name
+      <%= text_field_tag "user_name", params[:user_name], class: "form-control", autocomplete: "off" %></br>
+      product_name
+      <%= text_field_tag "product_name", params[:product_name], class: "form-control", autocomplete: "off" %></br>
+      position_name
+      <%= text_field_tag "position_name", params[:position_name], class: "form-control", autocomplete: "off" %></br>
+      project_name
+      <%= text_field_tag "project_name", params[:project_name], class: "form-control", autocomplete: "off" %></br>
+      <%= submit_tag "Search" %>
+    <% end %>
+  </div>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Product</th>
+      <th>Project</th>
+      <th>Position</th>
+      <th>Is Admin</th>
+      <th>Comment</th>
+      <th>Created_at</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= user.age %></td>
+        <td><%= user.product.name %></td>
+        <td><%= user.project.name %></td>
+        <td><%= user.position.name %></td>
+        <td><%= user.is_admin %></td>
+        <td><%= user.comments %></td>
+        <td><%= user.created_at %></td>
+        <td><%= link_to 'Show', user %></td>
+        <td><%= link_to 'Edit', edit_user_path(user) %></td>
+        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New User', new_user_path %>
+
+
+<script>
+  $("#user_search").autocomplete({
+    source: "/users/autocomplete.json",
+    minLength: 2
+  });
+</script>
